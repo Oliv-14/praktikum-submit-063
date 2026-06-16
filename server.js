@@ -15,7 +15,7 @@ const db = mysql.createConnection({
     password: process.env.DB_PASS,
     database: process.env.DB_NAME,
     port: 3306,
-    ssl: { rejectUnauthorized: false } // WAJIB untuk Azure MySQL Flexible Server
+    ssl: { rejectUnauthorized: false } 
 });
 
 db.connect((err) => {
@@ -32,8 +32,15 @@ const CONTAINER_NAME = process.env.CONTAINER_NAME || 'tugas-praktikum';
 const blobServiceClient = BlobServiceClient.fromConnectionString(AZURE_STORAGE_CONNECTION_STRING);
 const containerClient = blobServiceClient.getContainerClient(CONTAINER_NAME);
 
-app.use(express.static('public'));
+// --- BAGIAN EDIT UNTUK FIX "CANNOT GET /" ---
+app.use(express.static(__dirname)); // Mengizinkan akses file di folder utama
 app.use(express.urlencoded({ extended: true }));
+
+// Route untuk menampilkan halaman utama
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+// --------------------------------------------
 
 // 3. Endpoint POST untuk Submit Tugas
 app.post('/submit', upload.single('taskFile'), async (req, res) => {
@@ -43,11 +50,9 @@ app.post('/submit', upload.single('taskFile'), async (req, res) => {
 
         if (!file) return res.status(400).send('File tidak ditemukan.');
 
-        // Nama file unik untuk di Storage: NIM_WAKTU_NamaFile
         const blobName = `${nim}_${Date.now()}_${file.originalname}`;
         const blockBlobClient = containerClient.getBlockBlobClient(blobName);
 
-        // Upload file ke Azure Blob Storage
         console.log(`Mengunggah file ${blobName} ke Azure Storage...`);
         await blockBlobClient.uploadData(file.buffer, {
             blobHTTPHeaders: { blobContentType: file.mimetype }
@@ -55,7 +60,6 @@ app.post('/submit', upload.single('taskFile'), async (req, res) => {
 
         const fileUrl = blockBlobClient.url;
 
-        // Simpan data ke MySQL
         const sql = "INSERT INTO submissions (nim, name, class, course, file_url, status) VALUES (?, ?, ?, ?, ?, 'Submitted')";
         db.query(sql, [nim, name, className, course, fileUrl], (err, result) => {
             if (err) throw err;
