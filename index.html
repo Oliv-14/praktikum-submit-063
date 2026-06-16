@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Praktikum - Lilac Edition</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            /* Background Lilac Cerah dengan Gradasi */
+            background: linear-gradient(135deg, #efecff 0%, #dcd0ff 100%); 
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+        .container { 
+            max-width: 500px; 
+        }
+        .card { 
+            border: none;
+            border-radius: 20px; 
+            box-shadow: 0 10px 30px rgba(155, 126, 255, 0.2); 
+            background: rgba(255, 255, 255, 0.95);
+        }
+        h3 { 
+            color: #8a70d6; /* Ungu Lilac Tua */
+            font-weight: 600;
+        }
+        .form-label {
+            color: #6a5acd; /* Slate Blue/Purple */
+            font-weight: 500;
+        }
+        .form-control {
+            border: 2px solid #e6e0ff;
+            border-radius: 10px;
+            padding: 10px;
+        }
+        .form-control:focus {
+            border-color: #b19cd9;
+            box-shadow: 0 0 0 0.25 row rgba(177, 156, 217, 0.25);
+        }
+        .btn-lilac {
+            background-color: #b19cd9; /* Lilac Utama */
+            border: none;
+            color: white;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .btn-lilac:hover {
+            background-color: #967bb6; /* Lilac sedikit lebih gelap saat hover */
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(177, 156, 217, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card p-4">
+            <h3 class="text-center mb-4">✨ Pengumpulan Tugas ✨</h3>
+            <p class="text-center text-muted mb-4" style="font-size: 0.9rem;">Silakan lengkapi data praktikum Anda di bawah ini.</p>
+            
+            <form action="/submit" method="POST" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label class="form-label">NIM Mahasiswa</label>
+                    <input type="text" name="nim" class="form-control" placeholder="Masukkan NIM Anda" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Nama Lengkap</label>
+                    <input type="text" name="name" class="form-control" placeholder="Masukkan Nama Lengkap" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Kelas</label>
+                    <input type="text" name="class" class="form-control" placeholder="Contoh: IF-2024" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Mata Kuliah</label>
+                    <input type="text" name="course" class="form-control" placeholder="Mata Kuliah Praktikum" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">File Tugas</label>
+                    <input type="file" name="taskFile" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-lilac w-100 mt-3">Kirim Sekarang 🚀</button>
+            </form>
+            
+            <div class="text-center mt-4">
+                <small class="text-muted">Managed by Azure Cloud Service</small>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
